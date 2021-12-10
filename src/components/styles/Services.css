@@ -1,52 +1,119 @@
-body {
-  background-color: #121214;
-}
-.services {
-  width: 100vw;
-  height: 100vh;
-  background: transparent;
-  display: grid;
-  height: auto;
-  flex-direction: row;
+.main {
+  display: flex;
   justify-content: center;
-  align-items: center;
+  height: 100vh;
+  background-color: #121214;
+  color: white;
 }
-.info-layout {
+.title {
+  color: white;
+  font-size: 50px;
+  font-size: 2.5rem;
+  line-height: 0.6;
+  margin-top: 20px;
+}
+fieldset {
+  border: 0;
+}
+fieldset.grupo .campo {
+  float: left;
+  margin-right: 1em;
+}
+.form {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #29292e;
-  padding: 10px;
-  width: 500px;
-  height: 240px;
-  border: 1px solid #fff;
-  border-radius: 20px;
-  margin-top: 70px;
-  margin-bottom: 30px;
-  white-space: normal;
+  color: white;
+  font-size: 1.2rem;
+}
+.form strong {
+  color: #1888ff;
+}
+
+#nome {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 28px;
+}
+#qtd {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 28px;
+}
+#preco {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 28px;
+}
+#dt {
+  margin: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 28px;
+}
+
+.title p {
+  color: white;
+  background-color: transparent;
+  font-size: 50px;
+  width: fit-content;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.calcular {
+  width: 250px;
+  height: 40px;
+  margin-top: 25px;
+  font-size: 30px;
+}
+
+.grupo {
+  border: solid 1px;
+  border-radius: 0px 20px 0px 20px;
+  padding: 20px;
+}
+
+.grupo strong {
+  color: #1888ff;
+}
+
+.title center {
+  color: #1888ff;
+}
+
+.form h3 {
+  margin: 2px;
+  font-size: 30px;
+}
+
+.home {
+  background-image: url("../../images/img2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 50px;
+  height: 100vh;
 }
 
 @media screen and (max-width: 960px) {
-  .info-layout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #29292e;
-    padding: 10px;
-    width: 400px;
-    height: 640px;
-    border: 1px solid #fff;
-    border-radius: 20px;
-    margin-top: 70px;
-    margin-bottom: 30px;
-  }
-  .services {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    width: 100%;
-    background: transparent;
-    color: white;
+  .home {
+    background-image: url("../../images/img2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 50px;
+    height: 100vh;
+    margin: 20px;
   }
 }

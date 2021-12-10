@@ -131,3 +131,6 @@
   text-decoration: none;
   font-size: rem;
 }
+.forgotPass {
+  background-color: transparent !important;
+}

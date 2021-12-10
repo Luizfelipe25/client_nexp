@@ -1,14 +1,34 @@
 import "../styles/Login.css";
 import { useState } from "react";
+import styled from "styled-components";
 import Axios from "axios";
 import { MdEmail, MdLock } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Modal } from "../Modal";
+import { GlobalStyle } from "../ModalStyles";
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Button = styled.button`
+  min-width: 100px;
+  padding: 16px 32px;
+  border-raidus: 4px;
+  border: none;
+  background: #141414;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+`;
 
 function Login() {
   const [cpf, setcpf] = useState("");
   const [password, setpassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const login = () => {
     Axios.post("http://localhost:3001/login", {
@@ -23,13 +43,12 @@ function Login() {
     });
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setShow(!show);
-  };
-
   const cadastrobtn = () => {
     window.location.href = "/SignUp";
+  };
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   return (
@@ -65,8 +84,13 @@ function Login() {
         <button type="submit" onClick={cadastrobtn}>
           Cadastre-se
         </button>
-        <h4>Esqueci minha senha</h4>
+        <button onClick={openModal} className="forgotPass">
+          <h4>Esqueci minha senha</h4>
+        </button>
+        <Modal showModal={showModal} setShowModal={setShowModal}></Modal>
+        <GlobalStyle></GlobalStyle>
       </div>
+
       <h1>{loginStatus}</h1>
     </div>
   );

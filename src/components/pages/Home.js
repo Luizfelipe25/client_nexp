@@ -82,7 +82,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
           >
-            Seja Bem-vindo!
+            Sem tempo para calcular o IR de sua operação na bolsa?
           </motion.h1>
           <motion.p
             variants={fade}
@@ -90,7 +90,7 @@ export default function Home() {
             animate="visible"
             transition={{ duration: 2 }}
           >
-            Organize seus resultados
+            A NEXP resolve para você!
           </motion.p>
           <a href="#sobre">
             <Button
@@ -113,7 +113,7 @@ export default function Home() {
       <div id="sobre" className="sobre">
         <SobColumn>
           <div className="sobredesc">
-            <h1 className="text">NEXP.</h1>
+            <h1 className="text">NEXP</h1>
             <h2>Para você, investidor!</h2>
             <br />
             <span>
@@ -122,18 +122,21 @@ export default function Home() {
             </span>
             <br />
             <span>
-              Se você investe, já percebeu que dá trabalho ler todas as notas de
-              corretagem para contabilizar seus gastos ao fim do mês não é
-              mesmo?!.
+              Se você é um investidor, com certeza sabe que calcular tributos no
+              papel exige muito tempo e que qualquer erro pode causar uma multa
+              ou até o bloqueio do seu CPF!
             </span>
             <span>
-              A NEXP. é uma plataforma segura onde você investidor poderá fazer
-              o upload ilimitado de suas notas e receber de uma maneira rápida e
-              gratuita a soma de seus gastos.
+              A NEXP é uma plataforma rápida que vai calcular o IR a partir da
+              nota de corretagem de sua operação na B3.
+            </span>
+            <span>
+              Basta inserir apenas os valores das ações contidos na nota que a
+              NEXP faz os calculos para você!
             </span>
             <br />
             <br />
-            <a href="/login">
+            <a href="/Services1">
               <Button
                 className="saibamaisbtn"
                 whileHover={{ scale: 1.2 }}
