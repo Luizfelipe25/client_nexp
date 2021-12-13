@@ -4,6 +4,23 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import axios from "axios";
 
+const RFvalues = [
+  '{"limitValue": 20000}',
+  '{"lowTrib": 0.15}',
+  '{"highTrib": 0.20}',
+];
+
+const fixValues = (json) => JSON.parse(json);
+const Limvalue = (values) => values.limitValue;
+const lowvalue = (values) => values.lowTrib;
+const higvalue = (values) => values.highTrib;
+const resolvelim = RFvalues.map(fixValues).map(Limvalue);
+const resolvelow = RFvalues.map(fixValues).map(lowvalue);
+const resolvehig = RFvalues.map(fixValues).map(higvalue);
+const limitValue = resolvelim[0];
+const lowValue = resolvelow[1];
+const highValue = resolvehig[2];
+
 const Button = styled(motion.button)`
   font-size: 1rem;
   border: 2px solid #fff;
@@ -17,35 +34,26 @@ const Button = styled(motion.button)`
 `;
 function Services() {
   const [nome, setnome] = useState(0);
-  const [buyQtd, setbuyQtd] = useState(0);
-  const [buyPrice, setbuyPrice] = useState(0);
-  const [sellQtd, setsellQtd] = useState(0);
+  const [buyValue, setbuyValue] = useState(0);
+  const [sellValue, setsellValue] = useState(0);
   const [SellPrice, setSellPrice] = useState(0);
   const [dt, setdt] = useState("");
   const [resultado, setresultado] = useState("");
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
 
-  /*   axios
-    .get(file, {
-      "Content-Type": "application/xml; charset=utf-8",
-    })
-    .then((response) => {
-      console.log(file, response.data);
-    }); */
-
   const calculo = () => {
-    const buyValue = buyQtd * buyPrice;
-    const sellValue = sellQtd * SellPrice;
-    const aliquot = sellValue - buyValue;
+    let sell = parseInt(sellValue);
+    let buy = parseInt(buyValue);
+    const aliquot = sell - buy;
 
-    if (aliquot < 0) {
+    if (aliquot <= 0) {
       return setresultado("Ação isenta de tributos");
     }
-    if (aliquot <= 20000) {
+    if (aliquot <= limitValue) {
       if (dt === "s") {
         return setresultado(
-          (aliquot * 0.2).toLocaleString("pt-BR", {
+          (aliquot * highValue).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
           })
@@ -54,16 +62,16 @@ function Services() {
         return setresultado("Ação isenta de tributos");
       }
     }
-    if (aliquot > 20000) {
+    if (aliquot > limitValue) {
       if (dt === "s") {
         return setresultado(
-          (aliquot * 0.2).toLocaleString("pt-BR", {
+          (aliquot * highValue).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
           })
         );
       } else {
-        return setresultado(aliquot * 0.15).toLocaleString("pt-BR", {
+        return setresultado(aliquot * lowValue).toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         });
@@ -76,45 +84,129 @@ function Services() {
       <div className="title">
         <center>Cálculo do Imposto de Renda</center>
         <br />
-        <p>
-          Insira o arquivo XML enviado por sua corretora, para que os calculos
-          sejam realizados!
-        </p>
+        <p>Insira o arquivo XML da nota de corretagem da opcão de venda!</p>
         <br></br>
         <form>
           <input
             type="file"
             name="file"
             onChange={(e) => {
-              var rawFile = new XMLHttpRequest();
-              rawFile.open("GET", e.target.files[0], false);
-              rawFile.onreadystatechange = () => {
-                if (rawFile.readyState === 4) {
-                  if (rawFile.status === 200 || rawFile.status == 0) {
-                    var xmlasstring = rawFile.responseText;
-                    console.log("Your xml file as string", xmlasstring);
-                  }
-                }
-              };
-              /* console.log(e.target.files[0]); */
+              const file = e.target.files[0];
+
+              const reader = new FileReader();
+
+              reader.readAsText(file);
+
+              const test = (reader.onloadend = (evt) => {
+                const readerData = evt.target.result;
+
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(readerData, "text/xml");
+
+                setbuyValue(
+                  xml.getElementsByTagName("text:span")[15].childNodes[0]
+                    .nodeValue
+                );
+              });
             }}
           ></input>
-          <Button
-            className="saibamaisbtn"
-            whileHover={{ scale: 1.2 }}
-            whileTap={{
-              scale: 0.95,
-              backgroundColor: "#1888ff",
-              border: "none",
-              color: "#000",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 2 } }}
-          >
-            Carregar
-          </Button>
         </form>
         <br></br>
+        <br></br>
+        <form>
+          <p>Insira o arquivo XML da nota de corretagem da opcão de Compra!</p>
+          <br></br>
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => {
+              const file = e.target.files[0];
+
+              const reader = new FileReader();
+
+              reader.readAsText(file);
+
+              reader.onloadend = (evt) => {
+                const readerData = evt.target.result;
+
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(readerData, "text/xml");
+
+                setsellValue(
+                  xml.getElementsByTagName("text:span")[15].childNodes[0]
+                    .nodeValue
+                );
+              };
+            }}
+          ></input>
+        </form>
+        <br></br>
+        <br></br>
+        <div className="second">
+          <strong>É DayTrade? * </strong>
+          <br></br>
+          <br></br>
+          <br></br>
+          <form>
+            <input
+              type="radio"
+              id="s"
+              name="fav_language"
+              value="s"
+              required
+              onChange={(e) => {
+                setdt(e.target.value);
+              }}
+            />
+            <label>Sim</label>
+            <br />
+            <br />
+            <input
+              type="radio"
+              id="n"
+              name="fav_language"
+              value="n"
+              required
+              onChange={(e) => {
+                setdt(e.target.value);
+              }}
+            />
+            <label>Não</label>
+          </form>
+        </div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <div>
+          <h3>
+            Imposto a pagar: <strong>{resultado}</strong>
+          </h3>
+        </div>
+        <br></br>
+        <br></br>
+        <br></br>
+
+        <Button
+          className="saibamaisbtn"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{
+            scale: 0.95,
+            backgroundColor: "#1888ff",
+            border: "none",
+            color: "#000",
+          }}
+          onClick={calculo}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 2 } }}
+        >
+          Calcular
+        </Button>
+        <br />
+        <br />
+        <p>
+          Caso não possua uma das duas notas, insira os dados manualmente
+          <a href="/Services">AQUI</a>
+        </p>
       </div>
     </div>
   );

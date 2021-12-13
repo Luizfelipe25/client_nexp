@@ -31,7 +31,7 @@ function Services() {
     const sellValue = sellQtd * SellPrice;
     const aliquot = sellValue - buyValue;
 
-    if (aliquot < 0) {
+    if (aliquot <= 0) {
       return setresultado("Ação isenta de tributos");
     }
     if (aliquot <= 20000) {
@@ -183,7 +183,7 @@ function Services() {
             <br />
             <div>
               <h3>
-                Imposto a pagar: <strong>{resultado}</strong>
+                Imposto a pagar: <strong id="result">{resultado}</strong>
               </h3>
             </div>
             <br />

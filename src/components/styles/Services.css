@@ -88,6 +88,10 @@ fieldset.grupo .campo {
   color: #1888ff;
 }
 
+.title strong {
+  color: #1888ff;
+}
+
 .title center {
   color: #1888ff;
 }
@@ -116,4 +120,12 @@ fieldset.grupo .campo {
     height: 100vh;
     margin: 20px;
   }
+}
+
+#result {
+  color: #1888ff;
+}
+
+.second {
+  font-size: 30px;
 }
